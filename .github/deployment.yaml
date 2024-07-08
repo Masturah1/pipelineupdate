@@ -1,0 +1,38 @@
+name: Deploy Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Zip project files
+      run: zip - the-file.zip . -x ".git"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: upload the-file as artifact
+        path: the-file.zip
+        retention-days: 5
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+    - name: Upload to S3
+      run: 
+          aws s3 cp the-file.zip s3://lackadaistical/path/to/the-file.zip
