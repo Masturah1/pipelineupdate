@@ -17,12 +17,12 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Zip project files
-      run: zip - the-file . -x ".git"
+      run: zip - the-file.zip . -x ".git"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: upload the-file as artifact
+        name: the-file.zip
         path: the-file.zip
         retention-days: 5
 
