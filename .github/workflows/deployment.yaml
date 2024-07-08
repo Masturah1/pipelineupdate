@@ -17,13 +17,13 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Zip project files
-      run: zip - the-file.zip . -x ".git"
+      run: zip - my-files.zip . -x ".git"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: the-file.zip
-        path: the-file.zip
+        name: my-files.zip
+        path: my-files.zip
         retention-days: 5
 
     - name: Configure AWS credentials
@@ -33,6 +33,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-    - name: Upload to S3
-      run: 
-          aws s3 cp the-file.zip s3://lackadaistical/path/to/the-file.zip
+    # - name: Upload to S3
+    #   run: 
+    #       aws s3 cp my-files.zip s3://lackadaistical/path/to/my-files.zip
